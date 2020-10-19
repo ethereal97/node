@@ -1,22 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>HTML</title>
-  
-  <!-- HTML -->
-  
+    <title>HTML</title>
 
-  <!-- Custom Styles -->
-  <link rel="stylesheet" href="css/style.css">
+    <!-- HTML -->
+    <link rel="stylesheet" href="https://etherio.github.io/cdn/milligram/milligram.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <p>Nothing to see here...</p>
-  <!-- Project -->
-  <script src="js/main.js"></script>
+    <div class="container">
+        <section id="users">
+            <h2>Users</h2>
+            <ul></ul>
+        </section>
+
+        <section id="add-user">
+            <form action="/user" method="POST">
+                <input type="text" name="username" id="username" placeholder="Username">
+                <label for="username"></label>
+                <button type="submit">Add</button>
+            </form>
+        </section>
+    </div>
+    <!-- Project -->
+    <script src="js/main.js"></script>
 </body>
+
 </html>

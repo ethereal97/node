@@ -1,0 +1,17 @@
+:root {
+    --bg-red: #b71c1f;
+}
+
+section#users ul>li {
+    display: grid;
+    grid-template-columns: auto 120px;
+}
+
+section#users ul>li>span {
+    text-align: left;
+}
+
+section#users ul>li>button {
+    border-color: var(--bg-red);
+    color: var(--bg-red);
+}
