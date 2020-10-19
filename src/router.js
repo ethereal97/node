@@ -15,8 +15,8 @@ module.exports = function router(app) {
 
     app.get('/user/:id', (req, res) => {
         let id = req.params.id
-            //
         res.status(200)
+        res.json(users.getUser(id))
         res.end()
     })
 
@@ -28,18 +28,19 @@ module.exports = function router(app) {
 
     app.delete('/user/:id', (req, res) => {
         let id = req.params.id
-        if (users.deleteUser(id)) {
-            res.status(202)
-        } else {
-            res.status(204)
-        }
+        res.status(users.deleteUser(id) ? 202 : 204)
         res.end()
     })
 
     app.post('/user', (req, res) => {
         let username = req.body.username
-        users.addUser({ username })
-        res.status(201)
+        if (users.userExists(username)) {
+            // res.status(204)
+            res.setHeader('Set-Cookie', `error=${encodeURI('Username <b>')}${username}${encodeURI('</b> already existed')}`)
+        } else {
+            users.addUser({ username })
+            res.status(201)
+        }
         res.setHeader('refresh', '0;url=/')
         res.end()
     })

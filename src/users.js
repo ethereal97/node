@@ -13,6 +13,10 @@ function deleteUser(id) {
     return true;
 }
 
+function userExists(username) {
+    return Boolean(users.find(user => user && user.username === username));
+}
+
 function addUser(user) {
     user.id = users.length + 1;
     users.push(user);
@@ -22,5 +26,6 @@ module.exports = {
     deleteUser,
     addUser,
     getUser,
-    getAll
+    getAll,
+    userExists
 }
