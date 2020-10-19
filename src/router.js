@@ -1,29 +1,31 @@
-const { join } = require('path')
-const PUBLIC_PATH = join(__dirname, 'public')
-
+const users = [];
 
 module.exports = function router(app) {
-  //* index page
-  app.get('/', (req, res) => {
-    res.sendFile(join(PUBLIC_PATH, 'index.html'))
-    res.end()
-  })
-  
-  //* resources (favicon)
-  app.get('/favicon.ico', (req, res) => {
-    res.sendFile(join(PUBLIC_PATH, 'favicon.ico'))
-    res.end()
-  })
-  
-  //* resources (css)
-  app.get('/css/:path', (req, res) => {
-    res.sendFile(join(PUBLIC_PATH, 'css', req.params.path))
-    res.end()
-  })
-  
-  //* resources (js)
-  app.get('/js/:path', (req, res) => {
-    res.sendFile(join(PUBLIC_PATH, 'js', req.params.path))
-    res.end()
-  })
+    app.get('/api/time', (req, res) => {
+        let date = new Date
+        res.json({
+            ts: Math.round(date.getTime() / 1000),
+            utc: date.toUTCString(),
+            lc: date.toString()
+        })
+        res.end()
+    })
+
+    app.get('/api/users', (req, res) => {
+        res.json(users)
+        res.end()
+    })
+
+    app.get('/api/user/add/:name', (req, res) => {
+        let user = {
+            id: users.length + 1,
+            name: req.params.name,
+            created: Math.round((new Date).getTime() / 1000)
+        }
+
+        users.push(user)
+        res.status(201)
+        res.json(user)
+        res.end()
+    })
 }
