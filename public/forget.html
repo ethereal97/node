@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Reset your password</title>
+
+    <!-- HTML -->
+    <link rel="stylesheet" href="https://etherio.github.io/cdn/milligram/milligram.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div class="container" style="max-width:360px;min-width:420px">
+        <h2>Reset Password</h2>
+        <form action="/auth/reset" method="POST">
+            <fieldset>
+                <input type="text" name="username" id="username" placeholder="Enter your username" autocapitalize="off">
+                <br>
+                <br>
+                <p>or</p>
+                <input type="email" name="email" id="email" placeholder="Enter your email address">
+            </fieldset>
+
+            <button class="button-primary" type="submit">Reset</button>
+        </form>
+        <hr>
+    </div>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 const hash = require('password-hash');
-const User = require('./User.model')
-const cookie = require('./cookie');
-const sessions = require('./sessions');
+const User = require('./src/User.model')
+const cookie = require('./src/cookie');
+const sessions = require('./src/sessions');
 
 module.exports = function router(app, db) {
     app.post('/login', (req, res) => {

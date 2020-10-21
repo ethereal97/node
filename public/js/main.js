@@ -18,15 +18,16 @@ let app = {
         // ul.appendChild(li)
         this.toast(error)
     },
-    listUser({ id, username }) {
+    listUser({ id, username, email }) {
         let users = this.section.users.querySelector('ul')
         let li = document.createElement('li')
         let user = document.createElement('span')
         let del = document.createElement('button')
+        let edit = document.createElement('button')
         let toast = this.toast
         user.id = `user-${id}`
-        user.textContent = username
-        del.className = 'button button-outline'
+        user.innerHTML = `<a href="mailto:${email}">${username}</a>`
+        del.className = 'button button-outline delete'
         del.textContent = 'Delete'
         del.addEventListener('click', () => {
             fetch(`/user/${id}`, { method: "DELETE" }).then(res => res.status).then(status => {
@@ -38,6 +39,8 @@ let app = {
                 li.remove();
             })
         })
+        edit.className = 'button button-outline edit'
+        edit.textContent = 'Edit'
         li.appendChild(user)
         li.appendChild(del)
         users.appendChild(li)
@@ -50,6 +53,10 @@ let app = {
             el.remove()
         }, 2800)
         document.body.appendChild(el)
+    },
+    logout() {
+        cookie.remove('SESSID')
+        location.reload()
     }
 }
 
@@ -58,21 +65,23 @@ document.cookie.split(';').map(c => c.trim()).filter(c => c !== '').forEach(c =>
     cookies[name] = value
 })
 
-fetch('/users').then(res => {
+fetch('/user').then(res => {
     if (res.status === 401) {
         var ul = app.section.users.querySelector('ul');
-        ul.classList.remove('placeholder')
-        ul.innerHTML = '<li><code style="color:red;font-weight:bold">Required Login! Click <a href="/login.html">here</a> to login.</code></li>'
-        return []
+        fetch('/auth').then(res => res.text()).then(res => {
+            ul.classList.remove('placeholder');
+            app.section.users.innerHTML = res;
+        })
+        return [];
     }
-    return res.json()
+    return res.json();
 }).then(users => {
-    app.section.users.querySelector('ul').classList.remove('placeholder')
+    app.section.users.querySelector('ul').classList.remove('placeholder');
     console.log(users);
-    users.forEach(user => app.listUser(user))
+    users.forEach(user => app.listUser(user));
 })
 
 if (cookies.error) {
-    app.showError(decodeURIComponent(cookies.error))
-    cookies.remove('error')
+    app.showError(decodeURIComponent(cookies.error));
+    cookies.remove('error');
 }

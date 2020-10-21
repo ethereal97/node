@@ -4,8 +4,15 @@ const sessions = {};
 
 function start(user) {
     let session_id = uuid()
-    sessions[session_id] = user;
+    if (typeof user === 'object') {
+        sessions[session_id] = user;
+    }
     return session_id;
+}
+
+function use(session_id, user) {
+    sessions[session_id] = user
+    return session_id
 }
 
 function exists(session_id) {
@@ -19,5 +26,6 @@ function find(session_id) {
 module.exports = {
     start,
     find,
-    exists
+    exists,
+    use
 }

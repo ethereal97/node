@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>HTML</title>
+
+    <!-- HTML -->
+    <link rel="stylesheet" href="https://etherio.github.io/cdn/milligram/milligram.css">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Create new account</h2>
+        <form action="/user" method="POST">
+            <fieldset>
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Username" autocapitalize="off" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+
+                <label for="password_confirm">Re-type your password</label>
+                <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm your password" required>
+
+                <label for="email">Email Address</label>
+                <input type="email" name="email" id="email" placeholder="Email Address" required>
+
+                <button class="button-primary" type="submit">Create</button>
+                <button class="button-outline" type="reset">Reset</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,40 +1,41 @@
 {
-  "name": "node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "nodemon"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ethereal97/node.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ethereal97/node/issues"
-  },
-  "homepage": "https://github.com/ethereal97/node#readme",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "mongoose": "^5.10.9",
-    "password-hash": "^1.2.2",
-    "socket.io": "^2.3.0",
-    "uuid": "^8.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.5"
-  },
-  "nodemonConfig": {
-    "exec": "npm start",
-    "ignore": [
-      "public/**"
-    ]
-  }
+    "name": "node",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "server": "node server.js",
+        "start": "env NODE_ENV=production npm run server",
+        "dev": "env NODE_ENV=development nodemon"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ethereal97/node.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ethereal97/node/issues"
+    },
+    "homepage": "https://github.com/ethereal97/node#readme",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.10.9",
+        "password-hash": "^1.2.2",
+        "socket.io": "^2.3.0",
+        "uuid": "^8.3.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.5"
+    },
+    "nodemonConfig": {
+        "exec": "npm run server",
+        "ignore": [
+            "public/**"
+        ]
+    }
 }

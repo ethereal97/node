@@ -17,8 +17,9 @@
 </head>
 
 <body>
-    <div class="container">
-        <form action="/login" method="POST">
+    <div class="container" style="max-width:360px;min-width:420px">
+        <h2>Login</h2>
+        <form action="/auth" method="POST">
             <fieldset>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" placeholder="Enter your username" autocapitalize="off" required>
@@ -26,11 +27,18 @@
                 <input type="password" name="password" id="password" placeholder="Enter your password" required>
             </fieldset>
 
-            <input type="checkbox" name="remember_me" id="remember_me">
-            <label for="remember_me">Remember me?</label>
+            <input type="checkbox" name="remember_me" id="remember_me" style="display:inline;">
+            <label for="remember_me" style="display:inline;">Remember me?</label>
+
+            <div style="padding:15px 5px;">
+                <a href="/forget.html">Reset your password?</a>
+                <br>
+            </div>
 
             <button class="button-primary" type="submit">Login</button>
+            <a class="button button-outline" href="/register.html">Create new account</a>
         </form>
+        <hr>
     </div>
 </body>
 
