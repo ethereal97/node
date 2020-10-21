@@ -1,21 +1,15 @@
 let cookies = {
     remove(name) {
-        delete this[name]
-        document.cookie = `${name}=;expires=${(new Date(0)).toUTCString()}`
+        document.cookie = `${name}=;path=/;expires=${(new Date(0)).toUTCString()};`;
     }
 };
 let q = new URLSearchParams(location.search)
 let app = {
     section: {
         users: document.querySelector('section#users'),
-        addUser: document.querySelector('section#add-user'),
         error: document.querySelector('#error-message')
     },
     showError(error) {
-        // let ul = this.section.error;
-        // let li = document.createElement('li')
-        // li.innerHTML = error
-        // ul.appendChild(li)
         this.toast(error)
     },
     listUser({ id, username, email }) {
@@ -65,22 +59,23 @@ document.cookie.split(';').map(c => c.trim()).filter(c => c !== '').forEach(c =>
     cookies[name] = value
 })
 
-fetch('/user').then(res => {
-    if (res.status === 401) {
-        var ul = app.section.users.querySelector('ul');
-        fetch('/auth').then(res => res.text()).then(res => {
-            ul.classList.remove('placeholder');
-            app.section.users.innerHTML = res;
-        })
-        return [];
-    }
-    return res.json();
-}).then(users => {
-    app.section.users.querySelector('ul').classList.remove('placeholder');
-    console.log(users);
-    users.forEach(user => app.listUser(user));
-})
-
+if (location.pathname === '/') {
+    fetch('/user').then(res => {
+        if (res.status === 401) {
+            var ul = app.section.users.querySelector('ul');
+            fetch('/auth').then(res => res.text()).then(res => {
+                ul.classList.remove('placeholder');
+                app.section.users.innerHTML = res;
+            })
+            return [];
+        }
+        return res.json();
+    }).then(users => {
+        app.section.users.querySelector('ul').classList.remove('placeholder');
+        console.log(users);
+        users.forEach(user => app.listUser(user));
+    })
+}
 if (cookies.error) {
     app.showError(decodeURIComponent(cookies.error));
     cookies.remove('error');

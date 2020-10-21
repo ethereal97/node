@@ -15,7 +15,7 @@ function session_start(req, res) {
 
     if (!session_id) {
         session_id = sessions.start()
-        res.setHeader('Set-Cookie', `SESSID=${session_id}`)
+        res.setHeader('Set-Cookie', `SESSID=${session_id};path=/;`)
     }
 
     return {
@@ -44,19 +44,42 @@ router.route('/').post((req, res) => {
 
     User.findOne({ username }).then(user => {
         if (!verify(password, user.password)) {
-            return res.status(401).json({
-                message: 'Password does not match'
-            }).end();
+            res.setHeader('Set-Cookie', 'error=' + encodeURI('Credential does not match') + ';path=/;');
+            res.setHeader('refresh', '0;url=/auth');
+            return res.end();
         }
         if (sessions.use(session_id, user)) {
-            res.setHeader('Set-Cookie', `SESSID=${session_id}`)
+            res.setHeader('Set-Cookie', `SESSID=${session_id}` + ';path=/;')
             res.setHeader('refresh', '0;url=/')
         }
         res.end()
     }).catch(err => {
-        res.status(500).json({
-            message: err.message
-        }).end()
+        res.setHeader('Set-Cookie', 'error=' + encodeURI(err.message) + ';path=/;');
+        res.setHeader('refresh', '0;url=/auth');
+        res.end()
+    })
+})
+
+router.route('/register').post((req, res) => {
+    session_start(req, res);
+
+    let { username, password, password_confirm, email } = req.body;
+
+    if (password !== password_confirm) {
+        res.setHeader('Set-Cookie', 'error=' + encodeURI('Password does not match') + ';path=/;');
+        res.setHeader('refresh', '0;url=/register.html')
+        return res.end()
+    }
+
+    let user = new User({ username, password, email })
+
+    user.save().then(() => {
+        res.setHeader('refresh', '0;url=/');
+        res.end()
+    }).catch(err => {
+        res.setHeader('Set-Cookie', 'error=' + encodeURI(err.message) + ';path=/;');
+        res.setHeader('refresh', '0;url=/register.html');
+        res.end()
     })
 })
 

@@ -19,7 +19,7 @@
 <body>
     <div class="container">
         <h2>Create new account</h2>
-        <form action="/user" method="POST">
+        <form action="/auth/register" method="POST">
             <fieldset>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username" placeholder="Username" autocapitalize="off" required>
@@ -38,6 +38,8 @@
             </fieldset>
         </form>
     </div>
+
+    <script src="/js/main.js"></script>
 </body>
 
 </html>
