@@ -1,4 +1,5 @@
 @import url(toast.css);
+@import url(placeholder.css);
 :root {
     --bg-red: #b71c1f;
 }

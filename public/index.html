@@ -20,14 +20,28 @@
     <div class="container">
         <section id="users">
             <h2>Users</h2>
-            <ul></ul>
+            <ul class="placeholder">
+            </ul>
         </section>
 
         <section id="add-user">
             <form action="/user" method="POST">
-                <input type="text" name="username" id="username" placeholder="Username" required>
-                <label for="username"></label>
-                <button type="submit">Add</button>
+                <fieldset>
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Username" autocapitalize="off" required>
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+
+                    <label for="password_confirm">Re-type your password</label>
+                    <input type="password" name="password_confirm" id="password_confirm" placeholder="Confirm your password" required>
+
+                    <label for="email">Email Address</label>
+                    <input type="email" name="email" id="email" placeholder="Email Address" required>
+
+                    <button class="button-primary" type="submit">Create</button>
+                    <button class="button-outline" type="reset">Reset</button>
+                </fieldset>
             </form>
         </section>
     </div>

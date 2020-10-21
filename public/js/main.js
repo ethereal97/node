@@ -58,7 +58,19 @@ document.cookie.split(';').map(c => c.trim()).filter(c => c !== '').forEach(c =>
     cookies[name] = value
 })
 
-fetch('/users').then(res => res.json()).then(users => users.forEach(user => app.listUser(user)))
+fetch('/users').then(res => {
+    if (res.status === 401) {
+        var ul = app.section.users.querySelector('ul');
+        ul.classList.remove('placeholder')
+        ul.innerHTML = '<li><code style="color:red;font-weight:bold">Required Login! Click <a href="/login.html">here</a> to login.</code></li>'
+        return []
+    }
+    return res.json()
+}).then(users => {
+    app.section.users.querySelector('ul').classList.remove('placeholder')
+    console.log(users);
+    users.forEach(user => app.listUser(user))
+})
 
 if (cookies.error) {
     app.showError(decodeURIComponent(cookies.error))
