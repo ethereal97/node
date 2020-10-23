@@ -24,9 +24,10 @@ function session_start(req, res) {
 }
 
 router.route('/logout').get((req, res) => {
-    let { SESSID } = cookie(req.headers.cookie);
+    let { SESSID } = session_start(req, res);
     sessions.destroy(SESSID, res);
-    res.setHeader('refresh', '0;url=/?logout=1');
+    res.send('<script>document.cookie="SESSID=;path=/;"</script>');
+    res.setHeader('refresh', '1;url=/?logout=1');
     res.end();
 })
 
@@ -38,15 +39,15 @@ router.route('/').get((req, res) => {
     }
 
     readFile(join(publicPath, 'login.html'), 'utf-8', (err, result) => {
-        if (err) res.status(404).end()
-        res.send(result)
-        res.end()
+        if (err) return res.status(500).end();
+        res.send(result);
+        res.end();
     })
 })
 
 router.route('/').post((req, res) => {
-    let { username, password } = req.body
-    let { SESSID } = session_start(req, res)
+    let { username, password } = req.body;
+    let { SESSID } = session_start(req, res);
 
     User.findOne({ username }).then(user => {
         if (!verify(password, user.password)) {
@@ -91,4 +92,4 @@ router.route('/register').post((req, res) => {
     })
 })
 
-module.exports = router
+module.exports = router;
