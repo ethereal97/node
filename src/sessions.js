@@ -1,6 +1,6 @@
 const uuid = require("uuid").v4;
 
-const sessions = {};
+const sessions = new Object;
 
 function start(user) {
     let session_id = uuid();
@@ -12,6 +12,7 @@ function start(user) {
 }
 
 function use(session_id, user) {
+    user['SESSID'] = session_id;
     sessions[session_id] = user;
     return session_id;
 }
