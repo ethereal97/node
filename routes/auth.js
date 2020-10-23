@@ -24,6 +24,15 @@ function session_start(req, res) {
     }
 }
 
+router.route('/logout').get((req, res) => {
+    let { SESSID } = cookie(req.headers.cookie)
+    sessions.destroy(SESSID)
+    res.setHeader('Set-Cookie', 'SESSID=;path=/');
+    res.status(301);
+    res.setHeader('refresh', '0;url=/');
+    res.end();
+})
+
 router.route('/').get((req, res) => {
     let { user } = session_start(req, res)
 

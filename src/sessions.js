@@ -23,9 +23,14 @@ function find(session_id) {
     return sessions[session_id]
 }
 
+function destroy(session_id) {
+    delete sessions[session_id]
+}
+
 module.exports = {
     start,
     find,
     exists,
-    use
+    use,
+    destroy
 }

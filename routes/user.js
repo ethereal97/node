@@ -6,12 +6,12 @@ const User = require("../src/User.model");
 const router = Router()
 
 router.route('/').get((req, res) => {
-    let cookies = cookie(req.headers.cookie)
-    if (!cookies.SESSID) {
+    let { SESSID } = cookie(req.headers.cookie)
+    if (!SESSID) {
         return res.status(401).end()
     }
 
-    if (!sessions.exists(cookies.SESSID)) {
+    if (!sessions.exists(SESSID)) {
         return res.status(401).end()
     }
 
@@ -19,14 +19,33 @@ router.route('/').get((req, res) => {
         if (err) return res.status(500).json({ message: err.message }).end()
         res.json(users.map(user => {
             let { _id, username, email } = user
-
             return {
-                _id,
+                id: _id,
                 username,
                 email
             }
         }))
         res.end()
+    })
+})
+
+router.route('/:id').delete((req, res) => {
+    let { id } = req.params;
+    let { SESSID } = cookie(req.headers.cookie);
+    if (!SESSID) {
+        return res.status(401).end();
+    }
+    
+    if (!sessions.exists(SESSID)) {
+        return res.status(401).end();
+    }
+
+    User.findOneAndDelete({ id }).then(() => {
+        res.status(202)
+        res.end();
+    }).catch(err => {
+        res.status(204)
+        res.end();
     })
 })
 

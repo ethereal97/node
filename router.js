@@ -3,7 +3,7 @@ const User = require('./src/User.model')
 const cookie = require('./src/cookie');
 const sessions = require('./src/sessions');
 
-module.exports = function router(app, db) {
+module.exports = function router(app) {
     app.post('/login', (req, res) => {
         let username = req.body.username
         let password = req.body.password
