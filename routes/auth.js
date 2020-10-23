@@ -56,8 +56,8 @@ router.route('/').post((req, res) => {
             res.setHeader('refresh', '0;url=/auth');
             return res.end();
         }
-        if (sessions.use(session_id, user)) {
-            res.setHeader('Set-Cookie', `SESSID=${session_id}` + ';path=/;')
+        if (sessions.use(SESSID, user)) {
+            res.setHeader('Set-Cookie', `SESSID=${SESSID}` + ';path=/;')
             res.setHeader('refresh', '0;url=/')
         }
         res.end()
