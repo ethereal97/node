@@ -10,24 +10,23 @@ const router = Router()
 const publicPath = join(dirname(__dirname), 'public')
 
 function session_start(req, res) {
-    let cookies = cookie(req.headers.cookie)
-    let session_id = cookies.SESSID
+    let { SESSID } = cookie(req.headers.cookie);
 
-    if (!session_id) {
-        session_id = sessions.start()
-        res.setHeader('Set-Cookie', `SESSID=${session_id};path=/;`)
+    if (!SESSID) {
+        SESSID = sessions.start();
+        res.setHeader('Set-Cookie', `SESSID=${SESSID};path=/;`);
     }
 
     return {
-        session_id,
-        user: sessions.find(session_id)
+        SESSID,
+        user: sessions.find(SESSID)
     }
 }
 
 router.route('/logout').get((req, res) => {
-    let { SESSID } = cookie(req.headers.cookie)
-    sessions.destroy(SESSID)
-    res.setHeader('Set-Cookie', 'SESSID=;path=/');
+    let { SESSID } = cookie(req.headers.cookie);
+    SESSID = sessions.destroy(SESSID);
+    res.setHeader('Set-Cookie', `SESSID=${SESSID};path=/`);
     res.status(301);
     res.setHeader('refresh', '0;url=/');
     res.end();
@@ -49,7 +48,7 @@ router.route('/').get((req, res) => {
 
 router.route('/').post((req, res) => {
     let { username, password } = req.body
-    let { session_id } = session_start(req, res)
+    let { SESSID } = session_start(req, res)
 
     User.findOne({ username }).then(user => {
         if (!verify(password, user.password)) {
