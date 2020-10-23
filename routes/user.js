@@ -40,7 +40,7 @@ router.route('/:id').delete((req, res) => {
         return res.status(401).end();
     }
 
-    User.findOneAndDelete({ id }).then(() => {
+    User.findOneAndDelete({ _id: id }).then(() => {
         res.status(202)
         res.end();
     }).catch(err => {
