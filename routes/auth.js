@@ -79,6 +79,8 @@ router.route('/register').post((req, res) => {
         return res.end()
     }
 
+    password = generate(password);
+
     let user = new User({ username, password, email })
 
     user.save().then(() => {
