@@ -1,10 +1,6 @@
 const uuid = require("uuid").v4;
 
-if (!'_sessions' in process) {
-    process._sessions = new Object;
-}
-
-const sessions = process._sessions;
+const sessions = {};
 
 function start(response) {
     let id = uuid();
@@ -21,7 +17,7 @@ function use(id, user) {
 }
 
 function exists(id) {
-    return Boolean(sessions[id]);
+    return id in sessions;
 }
 
 function find(id) {
