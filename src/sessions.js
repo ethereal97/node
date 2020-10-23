@@ -1,33 +1,40 @@
 const uuid = require("uuid").v4;
 
-const sessions = new Object;
+if (!'_sessions' in process) {
+    process._sessions = new Object;
+}
 
-function start(user) {
-    let session_id = uuid();
-    if (typeof user === 'object') {
-        user['SESSID'] = session_id;
-        sessions[session_id] = user;
+const sessions = process._sessions;
+
+function start(response) {
+    let id = uuid();
+    if (response) {
+        response.setHeader('Set-Cookie', `SESSID=${id};path=/;`);
     }
-    return session_id;
+    return id;
 }
 
-function use(session_id, user) {
-    user['SESSID'] = session_id;
-    sessions[session_id] = user;
-    return session_id;
+function use(id, user) {
+    user['SESSID'] = id;
+    sessions[id] = user;
+    return user;
 }
 
-function exists(session_id) {
-    return Boolean(sessions[session_id]);
+function exists(id) {
+    return Boolean(sessions[id]);
 }
 
-function find(session_id) {
-    return sessions[session_id];
+function find(id) {
+    return sessions[id];
 }
 
-function destroy(session_id) {
-    delete sessions[session_id];
-    return uuid();
+function destroy(id, response) {
+    delete sessions[id];
+    id = uuid();
+    if (response) {
+        response.setHeader('Set-Cookie', `SESSID=${id};path=/;`);
+    }
+    return id;
 }
 
 module.exports = {
