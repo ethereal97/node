@@ -22,29 +22,27 @@ router.route('/').get((req, res) => {
             return {
                 id: _id,
                 username,
-                email
+                email,
+                permission
             }
         }))
         res.end()
     })
 })
 
-router.route('/:id').delete((req, res) => {
-    let { id } = req.params;
+router.route('/:_id').delete((req, res) => {
+    let { _id } = req.params;
     let { SESSID } = cookie(req.headers.cookie);
-    if (!SESSID) {
-        return res.status(401).end();
-    }
     
-    if (!sessions.exists(SESSID)) {
+    if (!SESSID || !sessions.exists(SESSID)) {
         return res.status(401).end();
     }
 
-    User.findOneAndDelete({ _id: id }).then(() => {
-        res.status(202)
+    User.findOneAndDelete({ _id }).then(() => {
+        res.status(202);
         res.end();
     }).catch(err => {
-        res.status(204)
+        res.status(204);
         res.end();
     })
 })
