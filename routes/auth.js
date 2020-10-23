@@ -25,10 +25,8 @@ function session_start(req, res) {
 
 router.route('/logout').get((req, res) => {
     let { SESSID } = cookie(req.headers.cookie);
-    SESSID = sessions.destroy(SESSID);
-    res.setHeader('Set-Cookie', `SESSID=${SESSID};path=/`);
-    res.status(301);
-    res.setHeader('refresh', '0;url=/');
+    sessions.destroy(SESSID, res);
+    res.setHeader('refresh', '0;url=/?logout=1');
     res.end();
 })
 
