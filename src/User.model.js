@@ -14,6 +14,10 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true
+    },
+    permission: {
+        type: Number,
+        default: 1
     }
 }, {
     timestamps: true
